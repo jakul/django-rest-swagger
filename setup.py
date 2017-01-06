@@ -39,6 +39,21 @@ Docs @ https://django-rest-swagger.readthedocs.io/
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
+def get_package_data(package):
+    """
+    Return all files under the root package, that are not in a
+    package themselves.
+    """
+    walk = [(dirpath.replace(package + os.sep, '', 1), filenames)
+            for dirpath, dirnames, filenames in os.walk(package)
+            if not os.path.exists(os.path.join(dirpath, '__init__.py'))]
+
+    filepaths = []
+    for base, filenames in walk:
+        filepaths.extend([os.path.join(base, filename)
+                          for filename in filenames])
+    return {package: filepaths}
+
 setup(
     name='django-rest-swagger',
     version=VERSION,
@@ -49,7 +64,7 @@ setup(
         'simplejson'
     ],
     packages=['rest_framework_swagger'],
-    include_package_data=True,
+    package_data=get_package_data('rest_framework_swagger'),
     license='FreeBSD License',
     description='Swagger UI for Django REST Framework 3.4+',
     long_description=README,
