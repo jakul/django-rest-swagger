@@ -72,6 +72,7 @@ setup(
     author='Marc Gibbons',
     author_email='marc_gibbons@rogers.com',
     url='https://github.com/marcgibbons/django-rest-swagger',
+    zip_safe=False,
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
